@@ -4,6 +4,7 @@ import Form from './ContactForm/ContactForm';
 import Filter from './Filter/Filter';
 import { nanoid } from 'nanoid';
 
+
 // const getInitialContacts = () => {
 //   const savedContacts = localStorage.getItem('contacts');
 //   if (savedContacts !== null) {
@@ -22,6 +23,7 @@ export const App = () => {
   useEffect(() => {
     localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
+
 
   const handleFormSubmit = newContact => {
     newContact.id = nanoid();
