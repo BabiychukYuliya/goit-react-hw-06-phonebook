@@ -5,25 +5,26 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getContacts, getStatusFilter } from '../../redux/constants';
 import { deleteContact } from '../../redux/contactSlice';
 
-const ContactList = () => {
+export const ContactList = () => {
   const dispatch = useDispatch();
 
-  const filter = useSelector(getStatusFilter);
   const contacts = useSelector(getContacts);
-
-  // Фільтрує та повертає результат фільтру
+  const filter = useSelector(getStatusFilter);
 
   const filterContacts = () => {
-    const query = filter.toLocaleLowerCase();
-    const filteredContacts = contacts.filter(contact =>
-      contact.name.toLocaleLowerCase().includes(query)
-    );
-    return filteredContacts;
+    if (filter === '') {
+      return false;
+    }
+      
+  return contacts.filter(contact => contact.name.toLowerCase().includes(filter));
   };
 
+  const filtered = filterContacts();
+
+  const list = filtered ? filtered : contacts;
   return (
     <List>
-      {filterContacts().map(contact => (
+      {list.map(contact => (
         <ContactItem
           id={contact.id}
           contact={contact}
