@@ -1,24 +1,35 @@
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { List } from './Phonebook.styled';
 import ContactItem from '../ContactItem/ContactItem';
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts, getVisibleContacts } from './redux/constants';
+import { getContacts, getStatusFilter } from '../../redux/constants';
+import { deleteContact } from '../../redux/contactSlice';
 
-
-const ContactList = ({ contacts, onDeleteContact }) => {
+const ContactList = () => {
   const dispatch = useDispatch();
 
-  const visibleContacts = useSelector(getVisibleContacts);
+  const filter = useSelector(getStatusFilter);
   const contacts = useSelector(getContacts);
 
+  // Фільтрує та повертає результат фільтру
+
+  const filterContacts = () => {
+    const query = filter.toLocaleLowerCase();
+    const filteredContacts = contacts.filter(contact =>
+      contact.name.toLocaleLowerCase().includes(query)
+    );
+    return filteredContacts;
+  };
 
   return (
     <List>
-      {visibleContacts.map(contact => (
+      {filterContacts().map(contact => (
         <ContactItem
+          id={contact.id}
           contact={contact}
-          onDeleteContact={onDeleteContact}
-          key={contact.id} />
+          onDeleteContact={() => dispatch(deleteContact(contact))}
+          key={contact.id}
+        />
       ))}
     </List>
   );
@@ -26,13 +37,13 @@ const ContactList = ({ contacts, onDeleteContact }) => {
 
 export default ContactList;
 
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    })
-  ).isRequired,
-  onDeleteContact: PropTypes.func.isRequired
-};
+// ContactList.propTypes = {
+//   contacts: PropTypes.arrayOf(
+//     PropTypes.shape({
+//       id: PropTypes.string,
+//       name: PropTypes.string,
+//       number: PropTypes.string,
+//     })
+//   ),
+//   onDeleteContact: PropTypes.func,
+// };
