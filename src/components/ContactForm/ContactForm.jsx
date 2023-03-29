@@ -20,8 +20,8 @@ const Form = () => {
     setNumber(e.target.value);
   };
 
-  const handleSubmit = evt => {
-    evt.preventDefault();
+  const handleSubmit = e => {
+    e.preventDefault();
     dispatch(addNewContact({ name, number }));
     setName('');
     setNumber('');

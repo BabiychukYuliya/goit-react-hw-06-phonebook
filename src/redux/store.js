@@ -13,13 +13,12 @@ import {
   PURGE,
   REGISTER,
 } from 'redux-persist';
-// import { contactsReducer } from "./contactSlice";
 
 
 const persistConfig = {
   key: 'contacts',
   storage,
-   blacklist: ['filter'],
+   whitelist: ['contacts'],
 }
 
 const rootReducer = combineReducers({

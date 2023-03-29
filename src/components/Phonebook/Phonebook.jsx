@@ -2,34 +2,41 @@
 import { List } from './Phonebook.styled';
 import ContactItem from '../ContactItem/ContactItem';
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts, getStatusFilter } from '../../redux/constants';
 import { deleteContact } from '../../redux/contactSlice';
+import { getContacts, getStatusFilter } from 'redux/constants';
 
 export const ContactList = () => {
   const dispatch = useDispatch();
 
-  const contacts = useSelector(getContacts);
+
+const contacts = useSelector(getContacts);
   const filter = useSelector(getStatusFilter);
 
+
   const filterContacts = () => {
-    if (filter === '') {
-      return false;
+    let query = '';
+    let filteredContacts = [];
+
+    if (query !== '' && filteredContacts.length > 0) {
+      query = filter.toLocaleLowerCase();
+      filteredContacts = contacts.filter(contact =>
+      contact.name.toLocaleLowerCase().includes(query)
+    );
     }
-      
-  return contacts.filter(contact => contact.name.toLowerCase().includes(filter));
+    return filteredContacts;
   };
-
-  const filtered = filterContacts();
-
-  const list = filtered ? filtered : contacts;
+  
   return (
     <List>
-      {list.map(contact => (
+      {filterContacts().map(({ id, name, number }) => (
+        
         <ContactItem
-          id={contact.id}
-          contact={contact}
-          onDeleteContact={() => dispatch(deleteContact(contact))}
-          key={contact.id}
+  
+            id={id}
+            key={id}
+            name={name}
+            number={number}
+          onDeleteContact={() => dispatch(deleteContact(id))}
         />
       ))}
     </List>
