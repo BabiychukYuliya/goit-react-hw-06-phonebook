@@ -8,38 +8,31 @@ const contactsInitialState = [
   { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
 ];
 
-
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState: contactsInitialState,
   reducers: {
     addNewContact: (state, { payload }) => {
       const id = nanoid();
-const { name, number } = payload;
+      const { name, number } = payload;
       const includesName = state.find(
         contact => contact.name.toLocaleLowerCase() === name.toLocaleLowerCase()
       );
 
       if (includesName) {
-        return alert(
-          `${name} is already in contacts`
-        );
+        return alert(`${name} is already in contacts`);
       } else {
         let contact = { id, name, number };
         state.push(contact);
       }
     },
-      
-    deleteContact(state, {payload}) {
+
+    deleteContact(state, { payload }) {
       const index = state.findIndex(contact => contact.id === payload);
       state.splice(index, 1);
     },
-   
   },
 });
 
-
-
-export const { addNewContact, deleteContact } =
-  contactsSlice.actions;
+export const { addNewContact, deleteContact } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;

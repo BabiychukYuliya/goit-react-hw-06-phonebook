@@ -3,12 +3,9 @@ import { FormStyle, Label, Input, ButtonAdd } from './ContactForm.styled';
 import { useDispatch } from 'react-redux';
 import { addNewContact } from 'redux/contactSlice';
 
-
-
 const Form = () => {
-
   const dispatch = useDispatch();
-  
+
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
